@@ -49,8 +49,6 @@ class SamsumDataset(Dataset):
         self.roberta = roberta
         self.sentence_transformer = sentence_transformer
 
-        self.is_emotion_injection = is_emotion_injection
-        self.is_topic_injection = is_topic_injection
         print(self.relation)
         ##################################################
 
@@ -85,10 +83,30 @@ class SamsumDataset(Dataset):
                         self.sentence_transformer_classified_z = json.load(f)
 
             else:
-                with open(
-                    f"/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/samsum/dialog_{self.split_type}_split5_collated.json"
-                ) as f:
-                    self.dialogue_comet_inference = json.load(f)
+                ### PARACOMET ###
+                path = "/content/SICK_Summarization/src/data/COMET_Data/comet/dialogue/samsum/"
+                if is_emotion_injection:
+                    path += (
+                        "emotion_"
+                        + f"dialog_{self.split_type}_split5_collated.json"
+                    )
+                    with open(path) as f:
+                        print(path.split("/")[-1])
+                        self.dialogue_comet_inference = json.load(f)
+                elif is_topic_injection:
+                    path += (
+                        "topic_"
+                        + f"dialog_{self.split_type}_split5_collated.json"
+                    )
+                    with open(path) as f:
+                        print(path.split("/")[-1])
+                        self.dialogue_comet_inference = json.load(f)
+                else:
+                    with open(
+                        f"/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/samsum/dialog_{self.split_type}_split5_collated.json"
+                    ) as f:
+                        print(path.split("/")[-1])
+                        self.dialogue_comet_inference = json.load(f)
                 if self.roberta:
                     print("ROBERTA ON!")
                     with open(
@@ -546,9 +564,6 @@ class DialogsumDataset(Dataset):
         self.roberta = roberta
         self.sentence_transformer = sentence_transformer
 
-        self.is_emotion_injection = is_emotion_injection
-        self.is_topic_injection = is_topic_injection
-
         if (self.paracomet) and ("<" != self.relation[0]):
             self.relation = f"<|{self.relation}|>"
 
@@ -602,11 +617,26 @@ class DialogsumDataset(Dataset):
                 ###########################
                 # CODE FOR PARACOMET
                 ###########################
-
-                with open(
-                    f"/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/dialogsum/dialog_{self.split_type}_split5_collated.json"
-                ) as f:
-                    self.dialogue_comet_inference = json.load(f)
+                path = "/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/dialogsum"
+                if is_emotion_injection:
+                    path += (
+                        "emotion_"
+                        + f"dialog_{self.split_type}_split5_collated.json"
+                    )
+                    with open(path) as f:
+                        self.dialogue_comet_inference = json.load(f)
+                elif is_topic_injection:
+                    path += (
+                        "topic_"
+                        + f"dialog_{self.split_type}_split5_collated.json"
+                    )
+                    with open(path) as f:
+                        self.dialogue_comet_inference = json.load(f)
+                else:
+                    with open(
+                        f"/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/dialogsum/dialog_{self.split_type}_split5_collated.json"
+                    ) as f:
+                        self.dialogue_comet_inference = json.load(f)
 
                 if self.roberta:
                     with open(
