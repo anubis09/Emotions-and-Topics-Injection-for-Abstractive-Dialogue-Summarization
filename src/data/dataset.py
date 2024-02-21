@@ -26,6 +26,8 @@ class SamsumDataset(Dataset):
         supervision_relation="xIntent",
         roberta=False,
         sentence_transformer=False,
+        is_emotion_injection=False,
+        is_topic_injection=False,
     ):
         self.encoder_max_len = encoder_max_len
         self.decoder_max_len = decoder_max_len
@@ -46,6 +48,9 @@ class SamsumDataset(Dataset):
 
         self.roberta = roberta
         self.sentence_transformer = sentence_transformer
+
+        self.is_emotion_injection = is_emotion_injection
+        self.is_topic_injection = is_topic_injection
         print(self.relation)
         ##################################################
 
@@ -412,6 +417,8 @@ class SamsumDataset_total:
         supervision_relation="isAfter",
         roberta=False,
         sentence_transformer=False,
+        is_emotion_injection=False,
+        is_topic_injection=False,
     ):
         self.train_dataset = SamsumDataset(
             encoder_max_len,
@@ -425,6 +432,8 @@ class SamsumDataset_total:
             supervision_relation=supervision_relation,
             roberta=roberta,
             sentence_transformer=sentence_transformer,
+            is_emotion_injection=is_emotion_injection,
+            is_topic_injection=is_topic_injection,
         )
         self.eval_dataset = SamsumDataset(
             encoder_max_len,
@@ -438,6 +447,8 @@ class SamsumDataset_total:
             supervision_relation=supervision_relation,
             roberta=roberta,
             sentence_transformer=sentence_transformer,
+            is_emotion_injection=is_emotion_injection,
+            is_topic_injection=is_topic_injection,
         )
         self.test_dataset = SamsumDataset(
             encoder_max_len,
@@ -451,6 +462,8 @@ class SamsumDataset_total:
             supervision_relation=supervision_relation,
             roberta=roberta,
             sentence_transformer=sentence_transformer,
+            is_emotion_injection=is_emotion_injection,
+            is_topic_injection=is_topic_injection,
         )
 
     def getTrainData(self):
@@ -516,6 +529,8 @@ class DialogsumDataset(Dataset):
         supervision_relation="isAfter",
         roberta=False,
         sentence_transformer=False,
+        is_emotion_injection=False,
+        is_topic_injection=False,
     ):
         self.encoder_max_len = encoder_max_len
         self.decoder_max_len = decoder_max_len
@@ -530,6 +545,9 @@ class DialogsumDataset(Dataset):
 
         self.roberta = roberta
         self.sentence_transformer = sentence_transformer
+
+        self.is_emotion_injection = is_emotion_injection
+        self.is_topic_injection = is_topic_injection
 
         if (self.paracomet) and ("<" != self.relation[0]):
             self.relation = f"<|{self.relation}|>"
@@ -1045,6 +1063,8 @@ class DialogsumDataset_total:
         roberta=False,
         supervision_relation="isAfter",
         sentence_transformer=False,
+        is_emotion_injection=False,
+        is_topic_injection=False,
     ):
         self.train_dataset = DialogsumDataset(
             encoder_max_len,
@@ -1058,6 +1078,8 @@ class DialogsumDataset_total:
             roberta=roberta,
             supervision_relation=supervision_relation,
             sentence_transformer=sentence_transformer,
+            is_emotion_injection=is_emotion_injection,
+            is_topic_injection=is_topic_injection,
         )
         self.eval_dataset = DialogsumDataset(
             encoder_max_len,
@@ -1071,6 +1093,8 @@ class DialogsumDataset_total:
             roberta=roberta,
             supervision_relation=supervision_relation,
             sentence_transformer=sentence_transformer,
+            is_emotion_injection=is_emotion_injection,
+            is_topic_injection=is_topic_injection,
         )
         self.test_dataset = DialogsumDataset(
             encoder_max_len,
@@ -1084,6 +1108,8 @@ class DialogsumDataset_total:
             roberta=roberta,
             supervision_relation=supervision_relation,
             sentence_transformer=sentence_transformer,
+            is_emotion_injection=is_emotion_injection,
+            is_topic_injection=is_topic_injection,
         )
         print(self.train_dataset.data_len)
 
