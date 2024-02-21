@@ -6,16 +6,10 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, SequentialSampler
 from datasets import load_dataset
-from models.emotion_bert import EmotionBERT
 import os
 import spacy
 import re
 import random
-
-MODEL_EMOTION_EXTRACTOR = EmotionBERT(
-    path_load="/content/SICK_Summarization/src/data/BERT_model",
-    path_save="",
-)
 
 
 class SamsumDataset(Dataset):
@@ -200,8 +194,6 @@ class SamsumDataset(Dataset):
                             .strip()
                         )
                         sentence = sent["sentence"].strip()
-                        # array of emotions
-                        emotions = MODEL_EMOTION_EXTRACTOR.predict(sentence)
                         if self.roberta:
                             commonsense = self.roberta_classified_z[
                                 self.id[index]
@@ -225,27 +217,9 @@ class SamsumDataset(Dataset):
                         dialogue += person + ' said "' + sentence + '."' + "\n"
                         if sent["speaker"] + sentence != commonsense:
                             # print(self.process_media_msg(sentence, person, commonsense))
-                            # phrase before
-                            # dialogue = person + 'said' + sentence +.
                             dialogue += self.process_media_msg(
                                 sentence, person, commonsense
                             )
-                            # dialogue = person + 'said' + sentence + '.' +\n +  'I' + commonsense + '.' +\n.
-                            # phrase after
-                        if emotions:
-                            emotion_phrase_injection = ""
-                            for emotion in emotions:
-                                emotion_phrase_injection += emotion + ", "
-                            emotion_phrase_injection = emotion_phrase_injection[
-                                :-2
-                            ]
-                            dialogue += (
-                                "I express emotions of "
-                                + emotion_phrase_injection
-                                + "."
-                                + "\n"
-                            )
-
                 except KeyError:
                     print("key error")
                     dialogue = self.dialogue[index]
@@ -256,7 +230,6 @@ class SamsumDataset(Dataset):
                     dialogue = ""
                     for sent_idx, sent in dia.items():
                         sentence = sent["sentence"].strip()
-                        emotions = MODEL_EMOTION_EXTRACTOR.predict(sentence)
 
                         person = sentence.split()[0]
 
@@ -280,20 +253,6 @@ class SamsumDataset(Dataset):
                         if sentence != commonsense:
                             dialogue += self.process_media_msg(
                                 sentence, person, commonsense
-                            )
-
-                        if emotions:
-                            emotion_phrase_injection = ""
-                            for emotion in emotions:
-                                emotion_phrase_injection += emotion + ", "
-                            emotion_phrase_injection = emotion_phrase_injection[
-                                :-2
-                            ]
-                            dialogue += (
-                                "I express emotions of "
-                                + emotion_phrase_injection
-                                + "."
-                                + "\n"
                             )
 
                 except (
@@ -587,7 +546,7 @@ class DialogsumDataset(Dataset):
 
                 ##################################################
 
-                self.data = custom_load_dataset("dialogsum", split=split_type)
+        self.data = custom_load_dataset("dialogsum", split=split_type)
         self.dialogue = self.data["dialogue"]
         self.summary = self.data["summary"]
         if split_type == "test":
@@ -725,21 +684,9 @@ class DialogsumDataset(Dataset):
                     relation = cur_dialog_data[str(sentence_idx)]["relation"]
                     commonsense = cur_dialog_data[str(sentence_idx)]["out"]
 
-                    emotions = MODEL_EMOTION_EXTRACTOR(sentence)
-                    emotion_phrase_injection = ""
-                    if emotions:
-                        for emotion in emotions:
-                            emotion_phrase_injection += emotion + ", "
-                        emotion_phrase_injection = (
-                            "Expressed emotions of "
-                            + emotion_phrase_injection[:-2]
-                            + "."
-                        )
-
                     dialogue += sentence + "\n"
                     dialogue += "<I> "
-                    dialogue += commonsense + ". "
-                    dialogue += emotion_phrase_injection
+                    dialogue += commonsense + "."
                     dialogue += " </I>" + "\n"
 
             elif self.roberta:
@@ -755,21 +702,9 @@ class DialogsumDataset(Dataset):
                         ]
                         commonsense = cur_dialog_data[str(sentence_idx)]["out"]
 
-                        emotions = MODEL_EMOTION_EXTRACTOR(sentence)
-                        emotion_phrase_injection = ""
-                        if emotions:
-                            for emotion in emotions:
-                                emotion_phrase_injection += emotion + ", "
-                            emotion_phrase_injection = (
-                                "Expressed emotions of "
-                                + emotion_phrase_injection[:-2]
-                                + "."
-                            )
-
                         dialogue += sentence + "\n"
                         dialogue += "<I> "
-                        dialogue += commonsense + ". "
-                        dialogue += emotion_phrase_injection
+                        dialogue += commonsense + "."
                         dialogue += " </I>" + "\n"
                     except KeyError:
                         continue
@@ -863,22 +798,9 @@ class DialogsumDataset(Dataset):
 
                         except:
                             continue
-
-                    emotions = MODEL_EMOTION_EXTRACTOR(utterance)
-                    emotion_phrase_injection = ""
-                    if emotions:
-                        for emotion in emotions:
-                            emotion_phrase_injection += emotion + ", "
-                        emotion_phrase_injection = (
-                            "Expressed emotions of "
-                            + emotion_phrase_injection[:-2]
-                            + "."
-                        )
-
                     if "none" not in commonsense:
                         dialogue += "<I> "
-                        dialogue += commonsense + ". "
-                        dialogue += emotion_phrase_injection
+                        dialogue += commonsense + "."
                         dialogue += " </I>" + "\n"
                     idx += 1
             ############################### PARACOMET START #######################################################
@@ -898,7 +820,6 @@ class DialogsumDataset(Dataset):
                     commonsense = sent[self.relation][0].strip()
 
                     dialogue += sentence + "\n"
-                    emotions = MODEL_EMOTION_EXTRACTOR(utterance)
 
                     if sentence != commonsense:
                         if (
@@ -940,23 +861,10 @@ class DialogsumDataset(Dataset):
                             )
                         else:
                             if commonsense.strip() != "none":
-                                emotion_phrase_injection = ""
-                                if emotions:
-                                    for emotion in emotions:
-                                        emotion_phrase_injection += (
-                                            emotion + ", "
-                                        )
-                                    emotion_phrase_injection = (
-                                        "Expressed emotions of "
-                                        + emotion_phrase_injection[:-2]
-                                        + "."
-                                    )
                                 dialogue += (
                                     "<I> "
                                     + commonsense.strip()
-                                    + ". "
-                                    + emotion_phrase_injection
-                                    + "</I>"
+                                    + ". </I>"
                                     + "\n"
                                 )
 
