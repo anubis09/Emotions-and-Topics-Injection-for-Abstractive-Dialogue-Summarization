@@ -84,6 +84,9 @@ class SamsumDataset(Dataset):
 
             else:
                 ### PARACOMET ###
+                print("emotion inj:", is_emotion_injection)
+                print("topic inj:", is_topic_injection)
+
                 path = "/content/SICK_Summarization/src/data/COMET_Data/comet/dialogue/samsum/"
                 if is_emotion_injection:
                     path += (
@@ -105,7 +108,6 @@ class SamsumDataset(Dataset):
                     with open(
                         f"/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/samsum/dialog_{self.split_type}_split5_collated.json"
                     ) as f:
-                        print(path.split("/")[-1])
                         self.dialogue_comet_inference = json.load(f)
                 if self.roberta:
                     print("ROBERTA ON!")
