@@ -178,6 +178,8 @@ tokenizer.add_special_tokens(special_tokens_dict)
 
 # Set dataset
 if args.dataset_name == "samsum":
+    print("ARGS.EMOTION_INJ:", args.is_emotion_injection)
+    print("ARGS.TOPIC_INJ:", args.is_topic_injection)
     total_dataset = SamsumDataset_total(
         args.encoder_max_len,
         args.decoder_max_len,
