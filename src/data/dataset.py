@@ -84,7 +84,7 @@ class SamsumDataset(Dataset):
 
             else:
                 ### PARACOMET ###
-                path = "/content/SICK_Summarization/src/data/COMET_Data/comet/dialogue/samsum/"
+                path = "/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/samsum/"
                 if is_emotion_injection:
                     path += (
                         "emotion_"
