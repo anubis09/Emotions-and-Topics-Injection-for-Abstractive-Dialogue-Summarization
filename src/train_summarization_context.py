@@ -331,7 +331,10 @@ finetune_trainer = Seq2SeqTrainer(
 )
 
 # Run Training (Finetuning)
-finetune_trainer.train()
+try:
+    finetune_trainer.train()
+except Exception as e:
+    print(e.message, e.args)
 
 
 # Save final weights
