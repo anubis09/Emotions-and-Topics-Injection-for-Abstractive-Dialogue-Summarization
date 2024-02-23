@@ -616,15 +616,15 @@ class DialogsumDataset(Dataset):
                 ###########################
                 # CODE FOR PARACOMET
                 ###########################
-                path = "/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/dialogsum"
-                if is_emotion_injection:
+                path = "/content/SICK_Summarization/src/data/COMET_Data/paracomet/dialogue/dialogsum/"
+                if is_emotion_injection and self.split_type == "test":
                     path += (
                         "emotion_"
                         + f"dialog_{self.split_type}_split5_collated.json"
                     )
                     with open(path) as f:
                         self.dialogue_comet_inference = json.load(f)
-                elif is_topic_injection:
+                elif is_topic_injection and self.split_type == "test":
                     path += (
                         "topic_"
                         + f"dialog_{self.split_type}_split5_collated.json"
