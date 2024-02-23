@@ -326,7 +326,7 @@ finetune_trainer = Seq2SeqTrainer(
     train_dataset=train_dataset,
     eval_dataset=eval_dataset,
     tokenizer=tokenizer,
-    compute_metrics=compute_metrics,
+    # compute_metrics=compute_metrics,
     # preprocess_logits_for_metrics=preprocess_logits_for_metrics
 )
 
