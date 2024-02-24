@@ -1,7 +1,7 @@
-from transformers import AutoModelForSequenceClassification
-from transformers import AutoTokenizer
 import torch
 import numpy as np
+from transformers import AutoModelForSequenceClassification
+from transformers import AutoTokenizer
 
 
 class EmotionBERT:
@@ -32,7 +32,7 @@ class EmotionBERT:
         ]
 
     # Input it's a dialogue: list[str]
-    def predict(self, sentence: str):
+    def predict(self, sentence: str) -> list:
         try:
             encoding = self.tokenizer(sentence, return_tensors="pt")
             encoding = {k: v.to(self.model.device) for k, v in encoding.items()}

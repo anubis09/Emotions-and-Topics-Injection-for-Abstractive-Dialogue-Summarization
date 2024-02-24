@@ -56,6 +56,11 @@ parser.add_argument("--use_sentence_transformer", type=bool, default=False)
 parser.add_argument("--relation", type=str, default="xReason")
 parser.add_argument("--supervision_relation", type=str, default="isAfter")
 parser.add_argument("--num_beams", type=int, default=20)
+
+# Further injections
+parser.add_argument("--is_emotion_injection", type=bool, default=False)
+parser.add_argument("--is_topic_injection", type=bool, default=False)
+
 args = parser.parse_args()
 
 # Set GPU
@@ -171,6 +176,8 @@ if args.dataset_name == "samsum":
         supervision_relation=args.supervision_relation,
         roberta=args.use_roberta,
         sentence_transformer=args.use_sentence_transformer,
+        is_emotion_injection=args.is_emotion_injection,
+        is_topic_injection=args.is_topic_injection,
     )
     test_dataset = total_dataset.getTestData()
 elif args.dataset_name == "dialogsum":
@@ -185,6 +192,8 @@ elif args.dataset_name == "dialogsum":
         supervision_relation=args.supervision_relation,
         sentence_transformer=args.use_sentence_transformer,
         roberta=args.use_roberta,
+        is_emotion_injection=args.is_emotion_injection,
+        is_topic_injection=args.is_topic_injection,
     )
     test_dataset = total_dataset.getTestData()
 print("######################################################################")
