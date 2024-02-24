@@ -6,7 +6,7 @@ Authors:
 ## Abstract
 In this study, we present novel extensions aimed at improving abstractive chat summarization, building upon the SICK framework, which highlighted the benefits of incorporating commonsense knowledge among dialogue participants. The first enhancement involves extracting _emotions_ from the dialogue and integrating them into the model, while the second extension focuses on injecting predicted custom _topics_ into the summarization process. Our framework demonstrates promising results, laying the groundwork for future investigations. The findings indicate that injecting commonsense knowledge enriched by extracted topics has a substantial impact compared to emotion injection. However, both extensions contribute to enhancing the model, resulting in more informative and consistent summaries.
 
-**[Paper Link](https://drive.google.com/file/d/1uXpdkUM9fsKetN4qUub6lFwNeHDxzhth/view?usp=sharing)**
+**[Paper Link](https://drive.google.com/file/d/10KhCJ6TzqJVNY3Dimy4fNfzye-gSvXOL/view?usp=sharing)**
 
 ## Folder legend
 - In the notebooks/ folder you can find the file used for fine-tuning bert into Emotion BERT, and the file used for choosing the topic labels.
