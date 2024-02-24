@@ -1,4 +1,8 @@
 # Emotions and Topics Injection for Abstractive Dialogue Summarization
+Authors:
+- Lorenzo Tozzi -> lorenzo.tozzi@studenti.polito.it
+- Elisa Cascina -> elisa.cascina@studenti.polito.it
+- Andrea Pellegrino -> andre.pellegrino@studenti.polito.it
 ## Abstract
 In this study, we present novel extensions aimed at improving abstractive chat summarization, building upon the SICK framework, which highlighted the benefits of incorporating commonsense knowledge among dialogue participants. The first enhancement involves extracting _emotions_ from the dialogue and integrating them into the model, while the second extension focuses on injecting predicted custom _topics_ into the summarization process. Our framework demonstrates promising results, laying the groundwork for future investigations. The findings indicate that injecting commonsense knowledge enriched by extracted topics has a substantial impact compared to emotion injection. However, both extensions contribute to enhancing the model, resulting in more informative and consistent summaries.
 
